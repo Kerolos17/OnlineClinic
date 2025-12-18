@@ -1,0 +1,466 @@
+@import "tailwindcss";
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    /* Medical Color Palette - Calming & Professional */
+    --color-medical-50: #f0f9ff;
+    --color-medical-100: #e0f2fe;
+    --color-medical-200: #bae6fd;
+    --color-medical-300: #7dd3fc;
+    --color-medical-400: #38bdf8;
+    --color-medical-500: #0ea5e9;
+    --color-medical-600: #0284c7;
+    --color-medical-700: #0369a1;
+    --color-medical-800: #075985;
+    --color-medical-900: #0c4a6e;
+
+    --color-accent-50: #f0fdf4;
+    --color-accent-100: #dcfce7;
+    --color-accent-200: #bbf7d0;
+    --color-accent-300: #86efac;
+    --color-accent-400: #4ade80;
+    --color-accent-500: #22c55e;
+    --color-accent-600: #16a34a;
+    --color-accent-700: #15803d;
+    --color-accent-800: #166534;
+    --color-accent-900: #14532d;
+
+    /* Fonts */
+    --font-inter: "Inter", ui-sans-serif, system-ui, sans-serif;
+    --font-cairo: "Cairo", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Font Families */
+.font-inter {
+    font-family: var(--font-inter);
+}
+
+.font-cairo {
+    font-family: var(--font-cairo);
+}
+
+/* RTL Support */
+[dir="rtl"] {
+    direction: rtl;
+}
+
+[dir="rtl"] .space-x-2 > * + *,
+[dir="rtl"] .space-x-3 > * + *,
+[dir="rtl"] .space-x-4 > * + *,
+[dir="rtl"] .space-x-6 > * + *,
+[dir="rtl"] .space-x-8 > * + * {
+    margin-left: 0;
+}
+
+[dir="rtl"] .space-x-reverse {
+    flex-direction: row-reverse;
+}
+
+/* Navigation Links */
+.nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-medical-700);
+    font-weight: 500;
+    transition: all 0.2s;
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.5rem;
+}
+
+.nav-link:hover {
+    color: var(--color-medical-600);
+    background-color: var(--color-medical-50);
+}
+
+.nav-link.active {
+    color: var(--color-medical-600);
+    background-color: var(--color-medical-50);
+}
+
+.mobile-nav-link {
+    display: block;
+    padding: 0.75rem 1rem;
+    color: var(--color-medical-700);
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: colors 0.2s;
+}
+
+.mobile-nav-link:hover {
+    background-color: var(--color-medical-50);
+}
+
+.mobile-nav-link.active {
+    background-color: var(--color-medical-50);
+    color: var(--color-medical-600);
+}
+
+/* Language Switcher */
+.lang-btn {
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    font-size: 0.875rem;
+    transition: all 0.2s;
+    background-color: var(--color-medical-100);
+    color: var(--color-medical-700);
+}
+
+.lang-btn:hover {
+    background-color: var(--color-medical-200);
+}
+
+.lang-btn.active {
+    background-image: linear-gradient(
+        to right,
+        var(--color-medical-600),
+        var(--color-medical-500)
+    );
+    color: white;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+/* Buttons */
+.btn-primary {
+    background-image: linear-gradient(
+        to right,
+        var(--color-medical-600),
+        var(--color-medical-500)
+    );
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-primary:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    transform: scale(1.05);
+}
+
+.btn-primary:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--color-medical-200);
+}
+
+.btn-secondary {
+    background-color: white;
+    color: var(--color-medical-700);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    border: 2px solid var(--color-medical-200);
+    transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: var(--color-medical-50);
+    border-color: var(--color-medical-300);
+}
+
+.btn-accent {
+    background-image: linear-gradient(
+        to right,
+        var(--color-accent-600),
+        var(--color-accent-500)
+    );
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    transition: all 0.2s;
+}
+
+.btn-accent:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    transform: scale(1.05);
+}
+
+/* Cards */
+.card {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    transition: all 0.3s;
+    border: 1px solid var(--color-medical-100);
+}
+
+.card:hover {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+}
+
+.card-hover:hover {
+    transform: scale(1.02) translateY(-0.25rem);
+}
+
+/* Doctor Cards */
+.doctor-card {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    transition: all 0.3s;
+    border: 1px solid var(--color-medical-100);
+    padding: 1.5rem;
+}
+
+.doctor-card:hover {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    transform: scale(1.02) translateY(-0.25rem);
+}
+
+.doctor-avatar {
+    width: 5rem;
+    height: 5rem;
+    border-radius: 1rem;
+    background-image: linear-gradient(
+        to bottom right,
+        var(--color-medical-400),
+        var(--color-medical-600)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 1.875rem;
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+/* Specialization Cards */
+.spec-card {
+    background-color: white;
+    border-radius: 1rem;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    transition: all 0.3s;
+    border: 1px solid var(--color-medical-100);
+    padding: 2rem;
+    text-align: center;
+    cursor: pointer;
+}
+
+.spec-card:hover {
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
+    transform: scale(1.02) translateY(-0.25rem);
+    border-color: var(--color-medical-300);
+}
+
+.spec-icon {
+    font-size: 3.75rem;
+    margin-bottom: 1rem;
+    transform: scale(1);
+    transition: transform 0.3s;
+}
+
+.spec-card:hover .spec-icon {
+    transform: scale(1.1);
+}
+
+/* Date & Slot Selection */
+.date-btn {
+    padding: 1rem;
+    border: 2px solid var(--color-medical-200);
+    border-radius: 0.75rem;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+
+.date-btn:hover {
+    border-color: var(--color-medical-400);
+    background-color: var(--color-medical-50);
+}
+
+.date-btn.selected {
+    border-color: var(--color-medical-600);
+    background-image: linear-gradient(
+        to bottom right,
+        var(--color-medical-50),
+        var(--color-medical-100)
+    );
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.slot-btn {
+    padding: 0.75rem;
+    border: 2px solid var(--color-medical-200);
+    border-radius: 0.75rem;
+    transition: all 0.2s;
+    cursor: pointer;
+    font-weight: 500;
+    color: var(--color-medical-700);
+}
+
+.slot-btn:hover {
+    border-color: var(--color-medical-400);
+    background-color: var(--color-medical-50);
+}
+
+.slot-btn.selected {
+    border-color: var(--color-medical-600);
+    background-image: linear-gradient(
+        to right,
+        var(--color-medical-600),
+        var(--color-medical-500)
+    );
+    color: white;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+/* Badges */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.25rem 0.75rem;
+    border-radius: 9999px;
+    font-size: 0.875rem;
+    font-weight: 500;
+}
+
+.badge-success {
+    background-color: var(--color-accent-100);
+    color: var(--color-accent-700);
+}
+
+.badge-warning {
+    background-color: #fef3c7;
+    color: #a16207;
+}
+
+.badge-info {
+    background-color: var(--color-medical-100);
+    color: var(--color-medical-700);
+}
+
+/* Stats */
+.stat-card {
+    background-image: linear-gradient(
+        to bottom right,
+        white,
+        var(--color-medical-50)
+    );
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid var(--color-medical-100);
+    transition: all 0.3s;
+}
+
+.stat-card:hover {
+    box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
+
+/* Forms */
+.form-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 2px solid var(--color-medical-200);
+    border-radius: 0.75rem;
+    transition: all 0.2s;
+}
+
+.form-input:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--color-medical-200);
+    border-color: var(--color-medical-500);
+}
+
+.form-label {
+    display: block;
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: var(--color-medical-800);
+    margin-bottom: 0.5rem;
+}
+
+.form-error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+/* Hero Section */
+.hero-gradient {
+    background-image: linear-gradient(
+        to bottom right,
+        var(--color-medical-600),
+        var(--color-medical-500),
+        var(--color-medical-600)
+    );
+}
+
+/* Animations */
+@keyframes float {
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.animate-float {
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes pulse-soft {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.8;
+    }
+}
+
+.animate-pulse-soft {
+    animation: pulse-soft 2s ease-in-out infinite;
+}
+
+/* Loading States */
+.skeleton {
+    background-image: linear-gradient(
+        to right,
+        var(--color-medical-100),
+        var(--color-medical-200),
+        var(--color-medical-100)
+    );
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    border-radius: 0.75rem;
+}
+
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: var(--color-medical-50);
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--color-medical-300);
+    border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: var(--color-medical-400);
+}
+
+/* Accessibility */
+.focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 4px var(--color-medical-300), 0 0 0 6px white;
+}
+
+/* Print Styles */
+@media print {
+    .no-print {
+        display: none !important;
+    }
+}
