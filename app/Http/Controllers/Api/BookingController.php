@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\BookingRequest;
 use App\Jobs\CreateZoomMeeting;
-use App\Mail\BookingConfirmation;
+use App\Mail\BookingConfirmationMail;
 use App\Models\Booking;
 use App\Models\Slot;
 use Illuminate\Http\JsonResponse;
@@ -93,7 +93,7 @@ class BookingController extends Controller
             // Send confirmation email
             try {
                 Mail::to($booking->patient_email)
-                    ->send(new BookingConfirmation($booking));
+                    ->send(new BookingConfirmationMail($booking));
             } catch (\Exception $e) {
                 Log::error('Failed to send booking confirmation email', [
                     'booking_id' => $booking->id,
@@ -117,7 +117,10 @@ class BookingController extends Controller
                     'status' => $booking->status,
                     'appointment_at' => $booking->appointment_at,
                 ],
-                'redirect_url' => route('booking.success', $booking->id),
+                'redirect_url' => route('booking.success', [
+                    'id' => $booking->id,
+                    'ref' => $booking->reference_code,
+                ]),
             ], 201);
         } catch (\Exception $e) {
             DB::rollBack();

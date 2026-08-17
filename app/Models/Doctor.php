@@ -2,10 +2,15 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Doctor extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'user_id',
         'specialization_id',
@@ -27,32 +32,38 @@ class Doctor extends Model
         'is_active' => 'boolean',
     ];
 
-    public function user()
+    /** @return BelongsTo<User, $this> */
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
-    public function specialization()
+    /** @return BelongsTo<Specialization, $this> */
+    public function specialization(): BelongsTo
     {
         return $this->belongsTo(Specialization::class);
     }
 
-    public function slots()
+    /** @return HasMany<Slot, $this> */
+    public function slots(): HasMany
     {
         return $this->hasMany(Slot::class);
     }
 
-    public function bookings()
+    /** @return HasMany<Booking, $this> */
+    public function bookings(): HasMany
     {
         return $this->hasMany(Booking::class);
     }
 
-    public function reviews()
+    /** @return HasMany<Review, $this> */
+    public function reviews(): HasMany
     {
         return $this->hasMany(Review::class);
     }
 
-    public function approvedReviews()
+    /** @return HasMany<Review, $this> */
+    public function approvedReviews(): HasMany
     {
         return $this->hasMany(Review::class)->where('status', 'approved');
     }
@@ -98,6 +109,7 @@ class Doctor extends Model
         if ($max !== null) {
             $query->where('consultation_price', '<=', $max);
         }
+
         return $query;
     }
 
@@ -107,7 +119,7 @@ class Doctor extends Model
 
         return $query->whereHas('slots', function ($q) use ($date) {
             $q->where('date', $date)
-              ->where('status', 'available');
+                ->where('status', 'available');
         });
     }
 
@@ -115,7 +127,7 @@ class Doctor extends Model
     {
         return $query->whereHas('user', function ($q) use ($search) {
             $q->where('name_en', 'like', "%{$search}%")
-              ->orWhere('name_ar', 'like', "%{$search}%");
+                ->orWhere('name_ar', 'like', "%{$search}%");
         });
     }
 
@@ -123,14 +135,16 @@ class Doctor extends Model
     public function getAvatarUrlAttribute()
     {
         if ($this->image) {
-            return asset('storage/' . $this->image);
+            return asset('storage/'.$this->image);
         }
+
         return null;
     }
 
     public function getFullNameAttribute()
     {
         $locale = app()->getLocale();
+
         return $locale === 'ar' ? $this->user->name_ar : $this->user->name_en;
     }
 }

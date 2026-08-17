@@ -65,7 +65,7 @@ class CacheService
     public static function getDoctor($id)
     {
         return Cache::remember("doctor.{$id}", self::CACHE_DURATION, function () use ($id) {
-            return Doctor::with([
+            return Doctor::active()->with([
                 'user',
                 'specialization',
                 'approvedReviews' => function ($query) {

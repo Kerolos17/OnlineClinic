@@ -61,7 +61,7 @@
                 @php
                     $avgPrice = $specialization->doctors->avg('consultation_price');
                 @endphp
-                ${{ number_format($avgPrice ?? 0, 0) }}
+                {{ __('messages.EGP') }} {{ number_format($avgPrice ?? 0, 0) }}
             </div>
             <div class="text-medical-700 font-medium">
                 {{ app()->getLocale() == 'ar' ? 'متوسط السعر' : 'Average Price' }}
@@ -119,7 +119,7 @@
             <!-- Footer -->
             <div class="flex items-center justify-between pt-4 border-t border-medical-100">
                 <div class="text-medical-900">
-                    <span class="text-2xl font-bold">${{ number_format($doctor->consultation_price, 0) }}</span>
+                    <span class="text-2xl font-bold">{{ __('messages.EGP') }} {{ number_format($doctor->consultation_price, 0) }}</span>
                     <span class="text-sm text-medical-600">{{ app()->getLocale() == 'ar' ? '/استشارة' : '/session' }}</span>
                 </div>
 

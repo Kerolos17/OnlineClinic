@@ -13,7 +13,6 @@ use Filament\Tables\Filters\Filter;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Model;
 
 class SlotResource extends Resource
 {
@@ -40,7 +39,7 @@ class SlotResource extends Resource
                         Forms\Components\Select::make('doctor_id')
                             ->label('Doctor')
                             ->relationship('doctor', 'id')
-                            ->getOptionLabelFromRecordUsing(fn (Model $record) => $record->user->name_en)
+                            ->getOptionLabelFromRecordUsing(fn (\App\Models\Doctor $record) => $record->user->name_en)
                             ->searchable()
                             ->preload()
                             ->placeholder('Select Doctor')

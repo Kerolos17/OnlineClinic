@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Review extends Model
 {
@@ -14,18 +15,21 @@ class Review extends Model
         'rating',
         'comment',
         'status',
+        'created_at',
     ];
 
     protected $casts = [
         'rating' => 'integer',
     ];
 
-    public function doctor()
+    /** @return BelongsTo<Doctor, $this> */
+    public function doctor(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
     }
 
-    public function booking()
+    /** @return BelongsTo<Booking, $this> */
+    public function booking(): BelongsTo
     {
         return $this->belongsTo(Booking::class);
     }

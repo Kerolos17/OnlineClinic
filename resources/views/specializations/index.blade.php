@@ -62,7 +62,7 @@
     <!-- Specializations Grid -->
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         @forelse($specializations as $specialization)
-        <a href="{{ route('doctors.index', ['specialization' => $specialization->id]) }}" 
+        <a href="{{ route('specializations.show', $specialization->id) }}" 
            class="card p-8 hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group relative overflow-hidden">
             <!-- Decorative Background -->
             <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-medical-100 to-transparent rounded-bl-full opacity-50 group-hover:scale-150 transition-transform duration-500"></div>

@@ -3,27 +3,31 @@
 namespace App\Observers;
 
 use App\Models\Specialization;
+use App\Services\CacheService;
 use Illuminate\Support\Facades\Cache;
 
 class SpecializationObserver
 {
     public function created(Specialization $specialization): void
     {
-        $this->clearCache();
+        $this->clearCache($specialization);
     }
 
     public function updated(Specialization $specialization): void
     {
-        $this->clearCache();
+        $this->clearCache($specialization);
     }
 
     public function deleted(Specialization $specialization): void
     {
-        $this->clearCache();
+        $this->clearCache($specialization);
     }
 
-    private function clearCache(): void
+    private function clearCache(Specialization $specialization): void
     {
+        // Clear CacheService keys (web public cache)
+        CacheService::clearSpecializationCache($specialization->id);
+
         // Clear specializations cache
         Cache::forget('api.specializations');
         

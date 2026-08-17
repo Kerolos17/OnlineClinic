@@ -6,6 +6,6 @@ parameters:
     paths:
         - app
     excludePaths:
-        - app/Console/Kernel.php
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
+        - app/Console/Kernel.php (?)
+    checkExplicitMixed: false
+    treatPhpDocTypesAsCertain: false

@@ -108,7 +108,6 @@ class DoctorResource extends Resource
             ->columns([
                 Tables\Columns\ImageColumn::make('image')
                     ->disk('public')
-                    ->path('doctors')
                     ->circular()
                     ->label('Photo'),
 

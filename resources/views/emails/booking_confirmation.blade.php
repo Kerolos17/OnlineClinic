@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('Booking Confirmation') }}</title>
+    <title>{{ __('messages.Booking Confirmation') }}</title>
     <style>
         body {
             font-family: {{ app()->getLocale() == 'ar' ? 'Cairo, sans-serif' : 'Inter, sans-serif' }};
@@ -72,60 +72,60 @@
     <div class="container">
         <div class="header">
             <div class="success-icon">✅</div>
-            <h1>{{ __('Booking Confirmed!') }}</h1>
+            <h1>{{ __('messages.Booking Confirmed!') }}</h1>
         </div>
 
         <div class="content">
             @if($recipient === 'doctor')
-                <p>{{ __('Hello') }} <strong> {{ $doctorName }}</strong> 👋</p>
-                <p>{{ __('You have a new appointment booking. Here are the details:') }}</p>
+                <p>{{ __('messages.Hello') }} <strong> {{ $doctorName }}</strong> 👋</p>
+                <p>{{ __('messages.You have a new appointment booking. Here are the details:') }}</p>
             @else
-                <p>{{ __('Hello') }} <strong>{{ $patientName }}</strong> 👋</p>
-                <p>{{ __('Your appointment has been successfully confirmed. Here are your booking details:') }}</p>
+                <p>{{ __('messages.Hello') }} <strong>{{ $patientName }}</strong> 👋</p>
+                <p>{{ __('messages.Your appointment has been successfully confirmed. Here are your booking details:') }}</p>
             @endif
 
             <div class="info-box">
                 <div class="info-row">
-                    <span class="label">{{ __('Booking ID') }}:</span>
+                    <span class="label">{{ __('messages.Booking ID') }}:</span>
                     <span class="value">#{{ $bookingId }}</span>
                 </div>
                 @if($recipient === 'doctor')
                     <div class="info-row">
-                        <span class="label">{{ __('Patient Name') }}:</span>
+                        <span class="label">{{ __('messages.Patient Name') }}:</span>
                         <span class="value">{{ $patientName }}</span>
                     </div>
                 @else
                     <div class="info-row">
-                        <span class="label">{{ __('Doctor') }}:</span>
+                        <span class="label">{{ __('messages.Doctor') }}:</span>
                         <span class="value">{{ $doctorName }}</span>
                     </div>
                 @endif
                 <div class="info-row">
-                    <span class="label">{{ __('Specialization') }}:</span>
+                    <span class="label">{{ __('messages.Specialization') }}:</span>
                     <span class="value">{{ $specialization }}</span>
                 </div>
                 <div class="info-row">
-                    <span class="label">{{ __('Appointment Time') }}:</span>
+                    <span class="label">{{ __('messages.Appointment Time') }}:</span>
                     <span class="value">{{ $appointmentTime }}</span>
                 </div>
                 <div class="info-row">
-                    <span class="label">{{ __('Amount') }}:</span>
-                    <span class="value">{{ number_format($amount, 2) }} {{ __('EGP') }}</span>
+                    <span class="label">{{ __('messages.Amount') }}:</span>
+                    <span class="value">{{ number_format($amount, 2) }} {{ __('messages.EGP') }}</span>
                 </div>
             </div>
 
-            <p>{{ __('You will receive a Zoom meeting link via email 30 minutes before the appointment.') }}</p>
+            <p>{{ __('messages.You will receive a Zoom meeting link via email 30 minutes before the appointment.') }}</p>
 
             @if($recipient === 'patient')
-                <p>{{ __('If you need to cancel or reschedule, please contact us as soon as possible.') }}</p>
-                <p>{{ __('Thank you for choosing WellClinic!') }}</p>
+                <p>{{ __('messages.If you need to cancel or reschedule, please contact us as soon as possible.') }}</p>
+                <p>{{ __('messages.Thank you for choosing WellClinic!') }}</p>
             @else
-                <p>{{ __('Please be ready to join the consultation at the scheduled time.') }}</p>
+                <p>{{ __('messages.Please be ready to join the consultation at the scheduled time.') }}</p>
             @endif
         </div>
 
         <div class="footer">
-            <p>&copy; {{ date('Y') }} WellClinic. {{ __('All rights reserved.') }}</p>
+            <p>&copy; {{ date('Y') }} WellClinic. {{ __('messages.All rights reserved.') }}</p>
         </div>
     </div>
 </body>

@@ -1,6 +1,6 @@
 @if (session('success'))
-    <div class="fixed top-4 {{ app()->getLocale() == 'ar' ? 'left-4' : 'right-4' }} z-50 animate-slide-in"
-        id="flash-success">
+    <div style="z-index: 9999 !important;"
+        class="fixed top-4 {{ app()->getLocale() == 'ar' ? 'left-4' : 'right-4' }} animate-slide-in" id="flash-success">
         <div
             class="bg-gradient-to-r from-accent-500 to-accent-600 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 max-w-md">
             <svg class="w-6 h-6 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -28,7 +28,8 @@
 @endif
 
 @if (session('error'))
-    <div class="fixed top-4 {{ app()->getLocale() == 'ar' ? 'left-4' : 'right-4' }} z-50 animate-slide-in"
+    <div style="z-index: 9999 !important;"
+        class="fixed top-4 {{ app()->getLocale() == 'ar' ? 'left-4' : 'right-4' }} z-50 animate-slide-in"
         id="flash-error">
         <div
             class="bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-3 max-w-md">

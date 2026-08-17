@@ -7,31 +7,49 @@ use App\Models\Specialization;
 use App\Models\Slot;
 use App\Services\CacheService;
 use Illuminate\Http\Request;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class DoctorController extends Controller
 {
     public function index(Request $request)
     {
-        $query = Doctor::active()->withRelations();
-        
-        // Apply filters
-        if ($request->has('search') && $request->search) {
-            $search = $request->search;
-            $query->whereHas('user', function ($q) use ($search) {
-                $q->where('name_en', 'like', "%{$search}%")
-                  ->orWhere('name_ar', 'like', "%{$search}%");
-            });
+        $search = $request->input('search');
+        $specializationId = $request->input('specialization');
+
+        if ($search || $specializationId) {
+            // Filtered query - direct (filters are user-specific, not cached)
+            $query = Doctor::active()->withRelations();
+
+            if ($search) {
+                $query->whereHas('user', function ($q) use ($search) {
+                    $q->where('name_en', 'like', "%{$search}%")
+                      ->orWhere('name_ar', 'like', "%{$search}%");
+                });
+            }
+
+            if ($specializationId) {
+                $query->bySpecialization($specializationId);
+            }
+
+            $doctors = $query->orderBy('rating', 'desc')
+                ->orderBy('total_reviews', 'desc')
+                ->paginate(12);
+        } else {
+            // Unfiltered list - use cached doctors
+            $cachedDoctors = CacheService::getDoctors();
+
+            $page = max(1, (int) $request->input('page', 1));
+            $perPage = 12;
+
+            $doctors = new LengthAwarePaginator(
+                $cachedDoctors->forPage($page, $perPage)->values(),
+                $cachedDoctors->count(),
+                $perPage,
+                $page,
+                ['path' => $request->url(), 'query' => $request->query()]
+            );
         }
-        
-        if ($request->has('specialization') && $request->specialization) {
-            $query->bySpecialization($request->specialization);
-        }
-        
-        // Order and paginate
-        $doctors = $query->orderBy('rating', 'desc')
-            ->orderBy('total_reviews', 'desc')
-            ->paginate(12);
-            
+
         $allSpecializations = CacheService::getSpecializations();
         
         return view('doctors.index', compact('doctors', 'allSpecializations'));

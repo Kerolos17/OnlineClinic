@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ __('Appointment Reminder') }}</title>
+    <title>{{ __('messages.Appointment Reminder') }}</title>
     <style>
         body {
             font-family: {{ app()->getLocale() == 'ar' ? 'Cairo, sans-serif' : 'Inter, sans-serif' }};
@@ -74,30 +74,30 @@
     <div class="container">
         <div class="header">
             <div class="reminder-icon">⏰</div>
-            <h1>{{ __('Appointment Reminder') }}</h1>
+            <h1>{{ __('messages.Appointment Reminder') }}</h1>
         </div>
         
         <div class="content">
             @if($recipient === 'doctor')
-                <p>{{ __('Hello') }} <strong>{{ __('Dr.') }} {{ $doctorName }}</strong> 👋</p>
+                <p>{{ __('messages.Hello') }} <strong>{{ __('messages.Dr.') }} {{ $doctorName }}</strong> 👋</p>
             @else
-                <p>{{ __('Hello') }} <strong>{{ $patientName }}</strong> 👋</p>
+                <p>{{ __('messages.Hello') }} <strong>{{ $patientName }}</strong> 👋</p>
             @endif
             
             <div class="alert-box">
                 <p style="margin: 0; font-weight: 600; color: #92400e;">
-                    {{ __('Your appointment is coming up') }} {{ $timeUntil }}!
+                    {{ __('messages.Your appointment is coming up') }} {{ $timeUntil }}!
                 </p>
             </div>
             
             <div class="info-box">
                 @if($recipient === 'doctor')
                     <p style="margin: 0 0 10px 0; color: #0369a1; font-weight: 600;">
-                        {{ __('Appointment with') }} {{ $patientName }}
+                        {{ __('messages.Appointment with') }} {{ $patientName }}
                     </p>
                 @else
                     <p style="margin: 0 0 10px 0; color: #0369a1; font-weight: 600;">
-                        {{ __('Appointment with') }} {{ __('Dr.') }} {{ $doctorName }}
+                        {{ __('messages.Appointment with') }} {{ __('messages.Dr.') }} {{ $doctorName }}
                     </p>
                 @endif
                 <p style="margin: 0; font-size: 18px; font-weight: 700; color: #0c4a6e;">
@@ -107,30 +107,30 @@
             
             <p style="text-align: center;">
                 @if($recipient === 'doctor')
-                    {{ __('Click the button below to start your Zoom consultation:') }}
+                    {{ __('messages.Click the button below to start your Zoom consultation:') }}
                 @else
-                    {{ __('Click the button below to join your Zoom consultation:') }}
+                    {{ __('messages.Click the button below to join your Zoom consultation:') }}
                 @endif
             </p>
             
             <div style="text-align: center;">
                 <a href="{{ $zoomLink }}" class="zoom-button">
-                    🎥 {{ $recipient === 'doctor' ? __('Start Zoom Meeting') : __('Join Zoom Meeting') }}
+                    🎥 {{ $recipient === 'doctor' ? __('messages.Start Zoom Meeting') : __('messages.Join Zoom Meeting') }}
                 </a>
             </div>
             
             <p style="font-size: 14px; color: #64748b;">
-                {{ __('Or copy this link:') }}<br>
+                {{ __('messages.Or copy this link:') }}<br>
                 <a href="{{ $zoomLink }}" style="color: #0ea5e9; word-break: break-all;">{{ $zoomLink }}</a>
             </p>
             
-            <p>{{ __('Please make sure you have a stable internet connection and your camera/microphone are working properly.') }}</p>
+            <p>{{ __('messages.Please make sure you have a stable internet connection and your camera/microphone are working properly.') }}</p>
             
-            <p>{{ __('See you soon!') }}</p>
+            <p>{{ __('messages.See you soon!') }}</p>
         </div>
         
         <div class="footer">
-            <p>&copy; {{ date('Y') }} WellClinic. {{ __('All rights reserved.') }}</p>
+            <p>&copy; {{ date('Y') }} WellClinic. {{ __('messages.All rights reserved.') }}</p>
         </div>
     </div>
 </body>

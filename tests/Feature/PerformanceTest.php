@@ -10,13 +10,14 @@ use App\Services\PerformanceMonitor;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class PerformanceTest extends TestCase
 {
     use RefreshDatabase;
 
-    /** @test */
+    #[Test]
     public function doctors_list_uses_caching()
     {
         $this->createDoctors(5);
@@ -40,7 +41,7 @@ class PerformanceTest extends TestCase
         $this->assertLessThan(5, $queryCount);
     }
 
-    /** @test */
+    #[Test]
     public function doctor_profile_uses_caching()
     {
         $doctor = $this->createDoctors(1)->first();
@@ -62,7 +63,7 @@ class PerformanceTest extends TestCase
         $this->assertLessThan(5, $queryCount);
     }
 
-    /** @test */
+    #[Test]
     public function doctors_list_has_no_n_plus_one_queries()
     {
         $this->createDoctors(10);
@@ -77,7 +78,7 @@ class PerformanceTest extends TestCase
         $this->assertLessThan(10, $stats['query_count']);
     }
 
-    /** @test */
+    #[Test]
     public function doctor_profile_has_no_n_plus_one_queries()
     {
         $doctor = $this->createDoctors(1)->first();
@@ -92,7 +93,7 @@ class PerformanceTest extends TestCase
         $this->assertLessThan(8, $stats['query_count']);
     }
 
-    /** @test */
+    #[Test]
     public function cache_is_cleared_when_doctor_is_updated()
     {
         $doctor = $this->createDoctors(1)->first();
@@ -108,7 +109,7 @@ class PerformanceTest extends TestCase
         $this->assertFalse(Cache::has("doctor.{$doctor->id}"));
     }
 
-    /** @test */
+    #[Test]
     public function cache_is_cleared_when_specialization_is_updated()
     {
         $specialization = Specialization::create([
@@ -129,7 +130,7 @@ class PerformanceTest extends TestCase
         $this->assertFalse(Cache::has("specialization.{$specialization->id}"));
     }
 
-    /** @test */
+    #[Test]
     public function page_load_time_is_acceptable()
     {
         $this->createDoctors(20);
@@ -144,7 +145,7 @@ class PerformanceTest extends TestCase
         $this->assertLessThan(1000, $time);
     }
 
-    /** @test */
+    #[Test]
     public function memory_usage_is_acceptable()
     {
         $this->createDoctors(50);

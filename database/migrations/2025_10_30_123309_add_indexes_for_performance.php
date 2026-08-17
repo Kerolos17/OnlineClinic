@@ -51,7 +51,7 @@ return new class extends Migration
 
         // Users table indexes (if not already exists)
         Schema::table('users', function (Blueprint $table) {
-            if (! Schema::hasColumn('users', 'email_index')) {
+            if (! Schema::hasIndex('users', 'idx_users_email')) {
                 $table->index('email', 'idx_users_email');
             }
         });

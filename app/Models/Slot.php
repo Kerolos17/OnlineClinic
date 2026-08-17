@@ -2,28 +2,41 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Slot extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'doctor_id',
         'date',
         'start_time',
         'end_time',
         'status',
+        'type',
+        'notes',
+        'zoom_meeting_id',
+        'zoom_join_url',
+        'zoom_start_url',
     ];
 
     protected $casts = [
         'date' => 'date',
+        'type' => 'string',
     ];
 
-    public function doctor()
+    /** @return BelongsTo<Doctor, $this> */
+    public function doctor(): BelongsTo
     {
         return $this->belongsTo(Doctor::class);
     }
 
-    public function booking()
+    /** @return HasOne<Booking, $this> */
+    public function booking(): HasOne
     {
         return $this->hasOne(Booking::class);
     }
@@ -84,11 +97,54 @@ class Slot extends Model
         return $query->with('doctor.user', 'doctor.specialization');
     }
 
+    // Appointment type scopes
+    public function scopeOnline($query)
+    {
+        return $query->where('type', 'online');
+    }
+
+    public function scopeClinic($query)
+    {
+        return $query->where('type', 'clinic');
+    }
+
+    public function scopeByType($query, $type)
+    {
+        return $query->where('type', $type);
+    }
+
+    // Zoom meeting scopes
+    public function scopeWithZoomMeeting($query)
+    {
+        return $query->whereNotNull('zoom_meeting_id');
+    }
+
+    public function scopeWithoutZoomMeeting($query)
+    {
+        return $query->whereNull('zoom_meeting_id');
+    }
+
+    // Helper methods for appointment types
+    public function isOnline(): bool
+    {
+        return $this->type === 'online';
+    }
+
+    public function isClinic(): bool
+    {
+        return $this->type === 'clinic';
+    }
+
+    public function hasZoomMeeting(): bool
+    {
+        return ! empty($this->zoom_meeting_id);
+    }
+
     // Helper method to check if slot is bookable
     public function isBookable()
     {
         return $this->status === 'available' &&
-               $this->date->isFuture();
+        $this->date->isFuture();
     }
 
     // Helper method to mark as booked

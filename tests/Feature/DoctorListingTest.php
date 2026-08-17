@@ -6,6 +6,7 @@ use App\Models\Doctor;
 use App\Models\Specialization;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class DoctorListingTest extends TestCase
@@ -28,7 +29,7 @@ class DoctorListingTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_view_doctors_list()
     {
         $response = $this->get(route('doctors.index'));
@@ -37,7 +38,7 @@ class DoctorListingTest extends TestCase
         $response->assertViewIs('doctors.index');
     }
 
-    /** @test */
+    #[Test]
     public function doctors_list_shows_active_doctors_only()
     {
         // Create active doctor
@@ -52,7 +53,7 @@ class DoctorListingTest extends TestCase
         $response->assertDontSee('Dr. Inactive');
     }
 
-    /** @test */
+    #[Test]
     public function user_can_filter_doctors_by_specialization()
     {
         $cardiology = $this->specialization;
@@ -73,7 +74,7 @@ class DoctorListingTest extends TestCase
         $response->assertDontSee('Dr. Skin');
     }
 
-    /** @test */
+    #[Test]
     public function user_can_view_doctor_profile()
     {
         $doctor = $this->createDoctor('Dr. John Doe', true);
@@ -85,7 +86,7 @@ class DoctorListingTest extends TestCase
         $response->assertSee('Dr. John Doe');
     }
 
-    /** @test */
+    #[Test]
     public function doctor_profile_shows_specialization()
     {
         $doctor = $this->createDoctor('Dr. John Doe', true);
@@ -95,7 +96,7 @@ class DoctorListingTest extends TestCase
         $response->assertSee('Cardiology');
     }
 
-    /** @test */
+    #[Test]
     public function doctor_profile_shows_rating()
     {
         $doctor = $this->createDoctor('Dr. John Doe', true);
@@ -105,7 +106,7 @@ class DoctorListingTest extends TestCase
         $response->assertSee('4.5');
     }
 
-    /** @test */
+    #[Test]
     public function doctor_profile_shows_consultation_price()
     {
         $doctor = $this->createDoctor('Dr. John Doe', true);
@@ -115,7 +116,7 @@ class DoctorListingTest extends TestCase
         $response->assertSee('$100');
     }
 
-    /** @test */
+    #[Test]
     public function doctors_are_sorted_by_rating()
     {
         $doctor1 = $this->createDoctor('Dr. Low Rating', true);
@@ -134,7 +135,7 @@ class DoctorListingTest extends TestCase
         $this->assertLessThan($pos2, $pos1);
     }
 
-    /** @test */
+    #[Test]
     public function inactive_doctor_profile_returns_404()
     {
         $doctor = $this->createDoctor('Dr. Inactive', false);

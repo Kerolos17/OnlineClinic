@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Services\CacheService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Cache;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class CacheServiceTest extends TestCase
@@ -23,7 +24,7 @@ class CacheServiceTest extends TestCase
         Cache::flush();
     }
 
-    /** @test */
+    #[Test]
     public function it_caches_specializations()
     {
         Specialization::create([
@@ -45,7 +46,7 @@ class CacheServiceTest extends TestCase
         $this->assertTrue(Cache::has('specializations.active'));
     }
 
-    /** @test */
+    #[Test]
     public function it_caches_doctors()
     {
         $this->createDoctor();
@@ -58,7 +59,7 @@ class CacheServiceTest extends TestCase
         $this->assertTrue(Cache::has('doctors.all'));
     }
 
-    /** @test */
+    #[Test]
     public function it_caches_doctors_by_specialization()
     {
         $doctor = $this->createDoctor();
@@ -70,7 +71,7 @@ class CacheServiceTest extends TestCase
         $this->assertTrue(Cache::has("doctors.specialization.{$doctor->specialization_id}"));
     }
 
-    /** @test */
+    #[Test]
     public function it_caches_single_doctor()
     {
         $doctor = $this->createDoctor();
@@ -82,7 +83,7 @@ class CacheServiceTest extends TestCase
         $this->assertTrue(Cache::has("doctor.{$doctor->id}"));
     }
 
-    /** @test */
+    #[Test]
     public function it_caches_doctor_slots()
     {
         $doctor = $this->createDoctor();
@@ -103,7 +104,7 @@ class CacheServiceTest extends TestCase
         $this->assertTrue(Cache::has("doctor.{$doctor->id}.slots.{$date}"));
     }
 
-    /** @test */
+    #[Test]
     public function it_clears_doctor_cache()
     {
         $doctor = $this->createDoctor();
@@ -117,7 +118,7 @@ class CacheServiceTest extends TestCase
         $this->assertFalse(Cache::has("doctor.{$doctor->id}"));
     }
 
-    /** @test */
+    #[Test]
     public function it_clears_specialization_cache()
     {
         $specialization = Specialization::create([
@@ -136,7 +137,7 @@ class CacheServiceTest extends TestCase
         $this->assertFalse(Cache::has("specialization.{$specialization->id}"));
     }
 
-    /** @test */
+    #[Test]
     public function it_clears_slot_cache()
     {
         $doctor = $this->createDoctor();
@@ -159,7 +160,7 @@ class CacheServiceTest extends TestCase
         $this->assertFalse(Cache::has("doctor.{$doctor->id}.slots.{$date}"));
     }
 
-    /** @test */
+    #[Test]
     public function it_clears_all_cache()
     {
         $this->createDoctor();
@@ -175,7 +176,7 @@ class CacheServiceTest extends TestCase
         $this->assertFalse(Cache::has('specializations.active'));
     }
 
-    /** @test */
+    #[Test]
     public function it_warms_up_cache()
     {
         $this->createDoctor();

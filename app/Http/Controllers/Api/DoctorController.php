@@ -65,7 +65,7 @@ class DoctorController extends Controller
         $doctor = Cache::remember(
             "api.doctor.{$id}",
             300,
-            fn () => Doctor::with(['user', 'specialization', 'approvedReviews.user'])
+            fn () => Doctor::with(['user', 'specialization', 'approvedReviews'])
                 ->findOrFail($id)
         );
 

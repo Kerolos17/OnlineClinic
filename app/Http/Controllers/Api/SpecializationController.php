@@ -14,17 +14,20 @@ class SpecializationController extends Controller
         $specializations = Cache::remember(
             'api.specializations',
             86400, // 24 hours
-            fn () => Specialization::where('is_active', true)
-                ->withCount('doctors')
-                ->orderBy('name_en')
-                ->get()
-                ->map(fn ($spec) => [
-                    'id' => $spec->id,
-                    'name_en' => $spec->name_en,
-                    'name_ar' => $spec->name_ar,
-                    'icon' => $spec->icon,
-                    'doctors_count' => $spec->doctors_count,
-                ])
+            function (): array {
+                return Specialization::where('is_active', true)
+                    ->withCount('doctors')
+                    ->orderBy('name_en')
+                    ->get()
+                    ->map(fn ($spec): array => [
+                        'id' => $spec->id,
+                        'name_en' => $spec->name_en,
+                        'name_ar' => $spec->name_ar,
+                        'icon' => $spec->icon,
+                        'doctors_count' => $spec->doctors_count,
+                    ])
+                    ->all();
+            }
         );
 
         return response()->json([

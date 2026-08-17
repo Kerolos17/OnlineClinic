@@ -2,10 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Specialization extends Model
 {
+    use HasFactory;
+
     protected $fillable = ['name_en', 'name_ar', 'description_en', 'description_ar', 'icon', 'is_active'];
 
     protected $casts = [
@@ -36,12 +40,14 @@ class Specialization extends Model
             : ($this->description_en ?? $this->description_ar);
     }
 
-    public function doctors()
+    /** @return HasMany<Doctor, $this> */
+    public function doctors(): HasMany
     {
         return $this->hasMany(Doctor::class);
     }
 
-    public function activeDoctors()
+    /** @return HasMany<Doctor, $this> */
+    public function activeDoctors(): HasMany
     {
         return $this->hasMany(Doctor::class)->where('is_active', true);
     }

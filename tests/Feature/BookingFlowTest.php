@@ -8,6 +8,7 @@ use App\Models\Slot;
 use App\Models\Specialization;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use PHPUnit\Framework\Attributes\Test;
 use Tests\TestCase;
 
 class BookingFlowTest extends TestCase
@@ -61,7 +62,7 @@ class BookingFlowTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_view_booking_form()
     {
         $response = $this->get(route('booking.create', [
@@ -75,7 +76,7 @@ class BookingFlowTest extends TestCase
         $response->assertViewHas('slot');
     }
 
-    /** @test */
+    #[Test]
     public function user_can_create_booking_with_valid_data()
     {
         $bookingData = [
@@ -100,7 +101,7 @@ class BookingFlowTest extends TestCase
         $this->assertEquals('booked', $this->slot->status);
     }
 
-    /** @test */
+    #[Test]
     public function booking_requires_patient_name()
     {
         $bookingData = [
@@ -115,7 +116,7 @@ class BookingFlowTest extends TestCase
         $response->assertSessionHasErrors('patient_name');
     }
 
-    /** @test */
+    #[Test]
     public function booking_requires_valid_email()
     {
         $bookingData = [
@@ -131,7 +132,7 @@ class BookingFlowTest extends TestCase
         $response->assertSessionHasErrors('patient_email');
     }
 
-    /** @test */
+    #[Test]
     public function booking_requires_phone_number()
     {
         $bookingData = [
@@ -146,7 +147,7 @@ class BookingFlowTest extends TestCase
         $response->assertSessionHasErrors('patient_phone');
     }
 
-    /** @test */
+    #[Test]
     public function booking_creates_payment_record()
     {
         $bookingData = [
@@ -168,7 +169,7 @@ class BookingFlowTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function user_can_view_booking_success_page()
     {
         $booking = Booking::create([
@@ -182,7 +183,10 @@ class BookingFlowTest extends TestCase
             'appointment_at' => now()->addDays(1),
         ]);
 
-        $response = $this->get(route('booking.success', $booking->id));
+        $response = $this->get(route('booking.success', [
+            'id' => $booking->id,
+            'ref' => $booking->reference_code,
+        ]));
 
         $response->assertStatus(200);
         $response->assertViewIs('booking.success');
@@ -190,7 +194,32 @@ class BookingFlowTest extends TestCase
         $response->assertSee('John Patient');
     }
 
-    /** @test */
+    #[Test]
+    public function cannot_view_success_page_without_reference_code()
+    {
+        $booking = Booking::create([
+            'doctor_id' => $this->doctor->id,
+            'slot_id' => $this->slot->id,
+            'patient_name' => 'John Patient',
+            'patient_email' => 'patient@example.com',
+            'patient_phone' => '+1234567890',
+            'status' => 'confirmed',
+            'amount' => 100.00,
+            'appointment_at' => now()->addDays(1),
+        ]);
+
+        // Without ref code -> 404
+        $this->get(route('booking.success', $booking->id))->assertStatus(404);
+
+        // Wrong ref code -> 404
+        $this->get(route('booking.success', ['id' => $booking->id, 'ref' => 'WRONG']))->assertStatus(404);
+
+        // Correct ref code -> 200
+        $this->get(route('booking.success', ['id' => $booking->id, 'ref' => $booking->reference_code]))
+            ->assertStatus(200);
+    }
+
+    #[Test]
     public function cannot_book_unavailable_slot()
     {
         $this->slot->update(['status' => 'booked']);
@@ -203,12 +232,13 @@ class BookingFlowTest extends TestCase
             'patient_phone' => '+1234567890',
         ];
 
+        $this->withoutExceptionHandling();
         $this->expectException(\Illuminate\Database\Eloquent\ModelNotFoundException::class);
 
         $this->post(route('booking.store'), $bookingData);
     }
 
-    /** @test */
+    #[Test]
     public function patient_notes_are_optional()
     {
         $bookingData = [
@@ -228,7 +258,7 @@ class BookingFlowTest extends TestCase
         ]);
     }
 
-    /** @test */
+    #[Test]
     public function patient_name_must_be_at_least_3_characters()
     {
         $bookingData = [
@@ -244,7 +274,7 @@ class BookingFlowTest extends TestCase
         $response->assertSessionHasErrors('patient_name');
     }
 
-    /** @test */
+    #[Test]
     public function phone_number_must_be_at_least_10_characters()
     {
         $bookingData = [

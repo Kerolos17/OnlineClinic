@@ -17,11 +17,8 @@ Route::get('/doctors', [DoctorController::class, 'index'])->name('doctors.index'
 Route::get('/doctors/{id}', [DoctorController::class, 'show'])->name('doctors.show');
 
 // Specializations
-Route::get('/specializations', function () {
-    $specializations = \App\Models\Specialization::where('is_active', true)->get();
-
-    return view('specializations.index', compact('specializations'));
-})->name('specializations.index');
+Route::get('/specializations', [\App\Http\Controllers\SpecializationController::class, 'index'])->name('specializations.index');
+Route::get('/specializations/{id}', [\App\Http\Controllers\SpecializationController::class, 'show'])->name('specializations.show');
 
 // Booking
 Route::get('/booking/create', [BookingController::class, 'create'])->name('booking.create');

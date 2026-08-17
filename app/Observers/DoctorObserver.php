@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\Doctor;
+use App\Services\CacheService;
 use Illuminate\Support\Facades\Cache;
 
 class DoctorObserver
@@ -24,6 +25,9 @@ class DoctorObserver
 
     private function clearCache(Doctor $doctor): void
     {
+        // Clear CacheService keys (web public cache)
+        CacheService::clearDoctorCache($doctor->id);
+
         // Clear doctor-specific cache
         // Note: Using individual keys instead of tags for database/file cache compatibility
         Cache::forget("api.doctor.{$doctor->id}");

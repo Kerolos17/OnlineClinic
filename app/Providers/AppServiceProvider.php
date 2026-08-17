@@ -10,6 +10,7 @@ use App\Observers\BookingObserver;
 use App\Observers\DoctorObserver;
 use App\Observers\SlotObserver;
 use App\Observers\SpecializationObserver;
+use App\Providers\Filament\DoctorPanelProvider;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -19,7 +20,22 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        // Register the Doctor Panel Provider
+        $this->app->register(DoctorPanelProvider::class);
+
+        // Register PatientNotificationService
+        $this->app->singleton(\App\Services\PatientNotificationService::class);
+
+        // Register PaymentService (simulated payment gateway)
+        $this->app->singleton(\App\Services\PaymentService::class);
+
+        // Register DoctorSlotService with dependencies
+        $this->app->singleton(\App\Services\DoctorSlotService::class, function ($app) {
+            return new \App\Services\DoctorSlotService(
+                $app->make(\App\Services\ZoomService::class),
+                $app->make(\App\Services\PatientNotificationService::class)
+            );
+        });
     }
 
     /**

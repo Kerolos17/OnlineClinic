@@ -134,7 +134,7 @@ class BookingResource extends Resource
                         default => 'gray',
                     }),
                 Tables\Columns\TextColumn::make('amount')
-                    ->money('EGY')
+                    ->money('EGP')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('appointment_at')
                     ->dateTime()

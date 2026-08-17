@@ -6,6 +6,7 @@ namespace App\Models;
 use Filament\Models\Contracts\FilamentUser;
 use Filament\Panel;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -48,7 +49,8 @@ class User extends Authenticatable implements FilamentUser
         'password' => 'hashed',
     ];
 
-    public function doctor()
+    /** @return HasOne<Doctor, $this> */
+    public function doctor(): HasOne
     {
         return $this->hasOne(Doctor::class);
     }
@@ -65,7 +67,17 @@ class User extends Authenticatable implements FilamentUser
 
     public function canAccessPanel(Panel $panel): bool
     {
-        return $this->isAdmin();
+        // Admin panel access
+        if ($panel->getId() === 'admin') {
+            return $this->isAdmin();
+        }
+
+        // Doctor panel access
+        if ($panel->getId() === 'doctor') {
+            return $this->isDoctor() && $this->doctor !== null;
+        }
+
+        return false;
     }
 
     /**
@@ -83,15 +95,15 @@ class User extends Authenticatable implements FilamentUser
     {
         $locale = app()->getLocale();
 
-        if ($locale === 'ar' && !empty($this->name_ar)) {
+        if ($locale === 'ar' && ! empty($this->name_ar)) {
             return $this->name_ar;
         }
 
-        if (!empty($this->name_en)) {
+        if (! empty($this->name_en)) {
             return $this->name_en;
         }
 
-        if (!empty($this->name_ar)) {
+        if (! empty($this->name_ar)) {
             return $this->name_ar;
         }
 
