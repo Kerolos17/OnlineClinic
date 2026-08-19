@@ -1,0 +1,32 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-PacgJk9L.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/css/booking-enhancements.css": {
+    "file": "assets/booking-enhancements-DdE_dhZP.css",
+    "src": "resources/css/booking-enhancements.css",
+    "isEntry": true,
+    "name": "booking-enhancements",
+    "names": [
+      "booking-enhancements.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-CAiCLEjY.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  },
+  "resources/js/booking.js": {
+    "file": "assets/booking-C1lSeSMl.js",
+    "name": "booking",
+    "src": "resources/js/booking.js",
+    "isEntry": true
+  }
+}
